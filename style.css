@@ -1,0 +1,13 @@
+* {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.custom-card{
+    text-decoration: none;
+    color: rgb(29, 28, 28);
+    border: none;
+}
+
+#reload, #modal, #error-msg {
+    display: none;
+}
