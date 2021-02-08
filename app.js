@@ -4,6 +4,9 @@ const getId = id => document.getElementById(id)
 // this html variable holds custom html to push according to our api calls 
 let setHtml = ``
 
+// this function will show error msg when nothing is found (line: 41, 60)
+let errorMsg = () => getId('error-msg').style.display = "block"
+
 // this function run twice, once normally and another time if search input is not found (line: 38, 60)
 const alternativeSearch = (input) => {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${input}`)
@@ -30,11 +33,12 @@ const displaySingleRecipe = data => {
     });
 }
 
-// this function runs after fetching data from api 
+// this function runs after fetching data from api (line: 64)
 const displayData = (data) => {
     let meals = data.meals
 
     if (meals == null) {
+        errorMsg()
         const searchInput = getId('search-input').value.trim()
         const chars = searchInput.split('');
         let searchWith = chars[0]
@@ -53,7 +57,7 @@ getId('search-btn').addEventListener('click', () => {
     getId('reload').style.display = "block"
 
     if (searchInput.length === 0) {
-        getId('error-msg').style.display = "block"
+        errorMsg()
     }
     else if (searchInput.length > 1) {
         fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`)
@@ -63,10 +67,8 @@ getId('search-btn').addEventListener('click', () => {
     }
 })
 
-// this is a event listener for search again button 
-getId('reload').addEventListener('click', () => location.reload())
 
-// since this modal or ingredient showcase section is not that big, i put everything into (then) after calling fetch
+// since this modal or ingredient showcase section is not that big, i put everything into (then) after calling fetch (line: 26)
 let showDetails = (id) => {
     getId('modal').style.display = 'block'
 
@@ -106,8 +108,8 @@ let showDetails = (id) => {
         let i = 1
         
         while ( i != 0) {
-            let ingredientstr = `strIngredient${i}`
-            if (food[ingredientstr] === '' || !food[ingredientstr]) {
+            // let ingredientstr = `strIngredient${i}`
+            if (food[`strIngredient${i}`] === '' || !food[`strIngredient${i}`]) {
                 break
             } else {
                 let items = food[`strIngredient${i}`]
